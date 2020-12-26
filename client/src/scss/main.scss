@@ -1,0 +1,43 @@
+@import "config";
+
+body {
+  font-family: "Noto Sans", sans-serif;
+  background-color: $background;
+  color: $textColor;
+}
+
+*,
+*:focus {
+  outline: none !important;
+}
+
+.container {
+  max-width: 300px;
+  margin: auto;
+}
+
+.auth {
+  margin-top: 20vh;
+  h1 {
+    text-align: center;
+  }
+  form {
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      border: 0;
+      background: $background2;
+      border-radius: 3px;
+      margin-bottom: 10px;
+    }
+    input[type="button"] {
+      color: $textColor;
+      background: $primary;
+      cursor: pointer;
+      &:hover {
+        background: darken($primary, 6);
+      }
+    }
+  }
+}

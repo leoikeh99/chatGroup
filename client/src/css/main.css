@@ -1,0 +1,31 @@
+body {
+  font-family: "Noto Sans", sans-serif;
+  background-color: #120f13;
+  color: #e0e0e0; }
+
+*,
+*:focus {
+  outline: none !important; }
+
+.container {
+  max-width: 300px;
+  margin: auto; }
+
+.auth {
+  margin-top: 20vh; }
+  .auth h1 {
+    text-align: center; }
+  .auth form input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 0;
+    background: #252329;
+    border-radius: 3px;
+    margin-bottom: 10px; }
+  .auth form input[type="button"] {
+    color: #e0e0e0;
+    background: #2f80ed;
+    cursor: pointer; }
+    .auth form input[type="button"]:hover {
+      background: #146fe9; }
