@@ -4,6 +4,8 @@ body {
   font-family: "Noto Sans", sans-serif;
   background-color: $background;
   color: $textColor;
+  padding: 0;
+  margin: 0;
 }
 
 *,
@@ -11,9 +13,46 @@ body {
   outline: none !important;
 }
 
+.centralize {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
 .container {
   max-width: 300px;
   margin: auto;
+}
+
+.container2 {
+  max-width: 85%;
+  margin: auto;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mt-1 {
+  margin-top: 5px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: #000;
+  opacity: 0.7;
+  z-index: 1;
+  display: none;
+  opacity: 0;
 }
 
 .auth {
@@ -25,6 +64,7 @@ body {
     input {
       width: 100%;
       box-sizing: border-box;
+      color: $textColor;
       padding: 10px;
       border: 0;
       background: $background2;
@@ -32,7 +72,6 @@ body {
       margin-bottom: 10px;
     }
     input[type="button"] {
-      color: $textColor;
       background: $primary;
       cursor: pointer;
       &:hover {
@@ -40,4 +79,345 @@ body {
       }
     }
   }
+}
+
+.Home {
+  .sideNav2 {
+    transform: translate3d(-100%, 0, 0);
+    .title {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+    .desc {
+      margin-top: 0px;
+      margin-bottom: 30px;
+    }
+    ul {
+      padding: 0;
+      margin: 0;
+      li {
+        color: $textColor2;
+        font-weight: 600;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        .image {
+          margin-right: 20px;
+          img {
+            width: 35px;
+            border-radius: 7px;
+          }
+        }
+        p {
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+  .sideNav,
+  .sideNav2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    background-color: $background;
+    height: 100vh;
+    .top {
+      padding: 12px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 50px;
+      box-sizing: border-box;
+      position: relative;
+      .tabs {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 2;
+        margin: 0;
+        padding: 0;
+        margin-top: 20px;
+        background: $background;
+        box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.25);
+        display: none;
+        li {
+          list-style: none;
+          padding: 10px 15px;
+          cursor: pointer;
+          &:hover {
+            background: lighten($background, 3);
+          }
+        }
+      }
+      p {
+        margin: 0;
+        font-weight: 550;
+        cursor: pointer;
+      }
+      i:nth-child(3) {
+        padding: 6px;
+        background: $iconBackground;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+    }
+    .body {
+      padding: 15px 0px;
+
+      .pad {
+        padding: 0px 20px;
+      }
+      .cover {
+        width: 100%;
+        padding: 10px 8px;
+        background: $inputBackground;
+        box-sizing: border-box;
+        border-radius: 5px;
+
+        display: flex;
+        align-items: center;
+        input {
+          box-sizing: border-box;
+          border: 0;
+          background: transparent;
+          height: 100%;
+          color: $textColor;
+        }
+        i {
+          margin-right: 5px;
+          font-size: 0.9rem;
+        }
+      }
+
+      .channelList {
+        padding: 0;
+        margin-top: 20px;
+        .channelItem {
+          display: flex;
+          align-items: center;
+          padding: 8px 20px;
+          cursor: pointer;
+          position: relative;
+
+          &:hover {
+            background: lighten($background3, 4);
+          }
+
+          span {
+            text-align: center;
+            padding: 4px 6px;
+            background: $iconBackground;
+            border-radius: 6px;
+            width: 25px;
+          }
+          p {
+            margin: 0;
+            margin-left: 8px;
+          }
+          .iconBtn {
+            padding: 6px;
+            background: $iconBackground;
+            border-radius: 6px;
+          }
+          i {
+            cursor: pointer;
+            margin-left: auto;
+          }
+        }
+      }
+    }
+    a {
+      text-decoration: none;
+      color: $textColor;
+    }
+  }
+  .rel {
+    height: 100vh;
+    position: relative;
+  }
+  .abs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background: $background3;
+    p {
+      margin: 0;
+    }
+  }
+  .main {
+    width: 100%;
+    height: 100vh;
+    background: $background2;
+    padding-left: 240px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .chat {
+    height: 100vh;
+    width: 100%;
+    overflow-y: hidden;
+    position: relative;
+
+    .top {
+      height: 50px;
+      box-sizing: border-box;
+      padding: 12px 0px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+      p {
+        margin: 0;
+      }
+      .title {
+        font-weight: 600;
+      }
+    }
+
+    form {
+      position: absolute;
+      padding-bottom: 30px;
+      bottom: 0;
+      width: 100%;
+      background: $background2;
+      .cover2 {
+        margin: auto;
+        background: $inputBackground;
+        padding: 5px;
+        width: 85%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 5px;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 8px 5px;
+        background: transparent;
+        border: 0;
+        color: $textColor;
+      }
+      button {
+        width: 35px;
+        padding: 8px 0px;
+        border-radius: 5px;
+        border: 0;
+        position: relative;
+        background: $primary;
+        i {
+          color: $textColor;
+        }
+      }
+    }
+  }
+  .addChannel {
+    height: 250px;
+    width: 400px;
+    z-index: 2;
+    background: $background;
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 15px;
+    display: none;
+
+    h4 {
+      margin: 0px;
+    }
+    form {
+      padding-top: 12px;
+      position: relative;
+      i {
+        position: absolute;
+        top: -25px;
+        right: 0;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+      input[type="text"],
+      textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        border: 0;
+        background: $inputBackground;
+        border-radius: 5px;
+        margin-bottom: 8px;
+        color: $textColor;
+      }
+      textarea {
+        height: 100px;
+        margin-bottom: 3px;
+      }
+      input[type="submit"] {
+        float: right;
+        padding: 8px 18px;
+        border: 0px;
+        background: $primary;
+        color: $textColor;
+        border-radius: 3px;
+        cursor: pointer;
+        &:hover {
+          background: darken($primary, 6);
+        }
+      }
+    }
+  }
+}
+
+.simpleBar {
+  max-height: 80%;
+}
+
+.messages {
+  .message {
+    display: flex;
+    margin-bottom: 30px;
+    &:first-child {
+      margin-top: 45px;
+    }
+    &:last-child {
+      margin-bottom: 20px;
+    }
+    .image {
+      margin-right: 20px;
+      img {
+        width: 40px;
+        border-radius: 6px;
+      }
+    }
+
+    .other {
+      p {
+        margin: 0;
+        color: $textColor;
+        &:first-child {
+          margin-bottom: 6px;
+          color: $textColor2;
+        }
+      }
+    }
+  }
+}
+
+.unread {
+  position: absolute;
+  top: 7px;
+  left: 19px;
+  font-size: 0.5rem;
+  color: green;
 }

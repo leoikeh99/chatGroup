@@ -1,15 +1,67 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 0.6; } }
+
+@keyframes slideOut {
+  0% {
+    transform: translate3d(-100%, 0, 0); }
+  100% {
+    transform: translate3d(0, 0, 0); } }
+
+@keyframes slideIn {
+  0% {
+    transform: translate3d(0, 0, 0); }
+  100% {
+    transform: translate3d(-100%, 0, 0); } }
+
 body {
   font-family: "Noto Sans", sans-serif;
   background-color: #120f13;
-  color: #e0e0e0; }
+  color: #e0e0e0;
+  padding: 0;
+  margin: 0; }
 
 *,
 *:focus {
   outline: none !important; }
 
+.centralize {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto; }
+
 .container {
   max-width: 300px;
   margin: auto; }
+
+.container2 {
+  max-width: 85%;
+  margin: auto; }
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.mt-1 {
+  margin-top: 5px; }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: #000;
+  opacity: 0.7;
+  z-index: 1;
+  display: none;
+  opacity: 0; }
 
 .auth {
   margin-top: 20vh; }
@@ -18,14 +70,304 @@ body {
   .auth form input {
     width: 100%;
     box-sizing: border-box;
+    color: #e0e0e0;
     padding: 10px;
     border: 0;
     background: #252329;
     border-radius: 3px;
     margin-bottom: 10px; }
   .auth form input[type="button"] {
-    color: #e0e0e0;
     background: #2f80ed;
     cursor: pointer; }
     .auth form input[type="button"]:hover {
       background: #146fe9; }
+
+.Home .sideNav2 {
+  transform: translate3d(-100%, 0, 0); }
+  .Home .sideNav2 .title {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    font-weight: bold; }
+  .Home .sideNav2 .desc {
+    margin-top: 0px;
+    margin-bottom: 30px; }
+  .Home .sideNav2 ul {
+    padding: 0;
+    margin: 0; }
+    .Home .sideNav2 ul li {
+      color: #828282;
+      font-weight: 600;
+      list-style: none;
+      display: flex;
+      align-items: center; }
+      .Home .sideNav2 ul li .image {
+        margin-right: 20px; }
+        .Home .sideNav2 ul li .image img {
+          width: 35px;
+          border-radius: 7px; }
+      .Home .sideNav2 ul li p {
+        margin-bottom: 20px; }
+
+.Home .sideNav,
+.Home .sideNav2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  background-color: #120f13;
+  height: 100vh; }
+  .Home .sideNav .top,
+  .Home .sideNav2 .top {
+    padding: 12px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    box-sizing: border-box;
+    position: relative; }
+    .Home .sideNav .top .tabs,
+    .Home .sideNav2 .top .tabs {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 2;
+      margin: 0;
+      padding: 0;
+      margin-top: 20px;
+      background: #120f13;
+      box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.25);
+      display: none; }
+      .Home .sideNav .top .tabs li,
+      .Home .sideNav2 .top .tabs li {
+        list-style: none;
+        padding: 10px 15px;
+        cursor: pointer; }
+        .Home .sideNav .top .tabs li:hover,
+        .Home .sideNav2 .top .tabs li:hover {
+          background: #1a161c; }
+    .Home .sideNav .top p,
+    .Home .sideNav2 .top p {
+      margin: 0;
+      font-weight: 550;
+      cursor: pointer; }
+    .Home .sideNav .top i:nth-child(3),
+    .Home .sideNav2 .top i:nth-child(3) {
+      padding: 6px;
+      background: #252329;
+      border-radius: 6px;
+      cursor: pointer; }
+  .Home .sideNav .body,
+  .Home .sideNav2 .body {
+    padding: 15px 0px; }
+    .Home .sideNav .body .pad,
+    .Home .sideNav2 .body .pad {
+      padding: 0px 20px; }
+    .Home .sideNav .body .cover,
+    .Home .sideNav2 .body .cover {
+      width: 100%;
+      padding: 10px 8px;
+      background: #3c393f;
+      box-sizing: border-box;
+      border-radius: 5px;
+      display: flex;
+      align-items: center; }
+      .Home .sideNav .body .cover input,
+      .Home .sideNav2 .body .cover input {
+        box-sizing: border-box;
+        border: 0;
+        background: transparent;
+        height: 100%;
+        color: #e0e0e0; }
+      .Home .sideNav .body .cover i,
+      .Home .sideNav2 .body .cover i {
+        margin-right: 5px;
+        font-size: 0.9rem; }
+    .Home .sideNav .body .channelList,
+    .Home .sideNav2 .body .channelList {
+      padding: 0;
+      margin-top: 20px; }
+      .Home .sideNav .body .channelList .channelItem,
+      .Home .sideNav2 .body .channelList .channelItem {
+        display: flex;
+        align-items: center;
+        padding: 8px 20px;
+        cursor: pointer;
+        position: relative; }
+        .Home .sideNav .body .channelList .channelItem:hover,
+        .Home .sideNav2 .body .channelList .channelItem:hover {
+          background: #161218; }
+        .Home .sideNav .body .channelList .channelItem span,
+        .Home .sideNav2 .body .channelList .channelItem span {
+          text-align: center;
+          padding: 4px 6px;
+          background: #252329;
+          border-radius: 6px;
+          width: 25px; }
+        .Home .sideNav .body .channelList .channelItem p,
+        .Home .sideNav2 .body .channelList .channelItem p {
+          margin: 0;
+          margin-left: 8px; }
+        .Home .sideNav .body .channelList .channelItem .iconBtn,
+        .Home .sideNav2 .body .channelList .channelItem .iconBtn {
+          padding: 6px;
+          background: #252329;
+          border-radius: 6px; }
+        .Home .sideNav .body .channelList .channelItem i,
+        .Home .sideNav2 .body .channelList .channelItem i {
+          cursor: pointer;
+          margin-left: auto; }
+  .Home .sideNav a,
+  .Home .sideNav2 a {
+    text-decoration: none;
+    color: #e0e0e0; }
+
+.Home .rel {
+  height: 100vh;
+  position: relative; }
+
+.Home .abs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; }
+
+.Home .bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: #0b090c; }
+  .Home .bottom p {
+    margin: 0; }
+
+.Home .main {
+  width: 100%;
+  height: 100vh;
+  background: #252329;
+  padding-left: 240px;
+  box-sizing: border-box;
+  overflow: hidden; }
+
+.Home .chat {
+  height: 100vh;
+  width: 100%;
+  overflow-y: hidden;
+  position: relative; }
+  .Home .chat .top {
+    height: 50px;
+    box-sizing: border-box;
+    padding: 12px 0px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); }
+    .Home .chat .top p {
+      margin: 0; }
+    .Home .chat .top .title {
+      font-weight: 600; }
+  .Home .chat form {
+    position: absolute;
+    padding-bottom: 30px;
+    bottom: 0;
+    width: 100%;
+    background: #252329; }
+    .Home .chat form .cover2 {
+      margin: auto;
+      background: #3c393f;
+      padding: 5px;
+      width: 85%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px; }
+    .Home .chat form input[type="text"] {
+      width: 100%;
+      padding: 8px 5px;
+      background: transparent;
+      border: 0;
+      color: #e0e0e0; }
+    .Home .chat form button {
+      width: 35px;
+      padding: 8px 0px;
+      border-radius: 5px;
+      border: 0;
+      position: relative;
+      background: #2f80ed; }
+      .Home .chat form button i {
+        color: #e0e0e0; }
+
+.Home .addChannel {
+  height: 250px;
+  width: 400px;
+  z-index: 2;
+  background: #120f13;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 15px;
+  display: none; }
+  .Home .addChannel h4 {
+    margin: 0px; }
+  .Home .addChannel form {
+    padding-top: 12px;
+    position: relative; }
+    .Home .addChannel form i {
+      position: absolute;
+      top: -25px;
+      right: 0;
+      font-size: 1.2rem;
+      cursor: pointer; }
+    .Home .addChannel form input[type="text"],
+    .Home .addChannel form textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      border: 0;
+      background: #3c393f;
+      border-radius: 5px;
+      margin-bottom: 8px;
+      color: #e0e0e0; }
+    .Home .addChannel form textarea {
+      height: 100px;
+      margin-bottom: 3px; }
+    .Home .addChannel form input[type="submit"] {
+      float: right;
+      padding: 8px 18px;
+      border: 0px;
+      background: #2f80ed;
+      color: #e0e0e0;
+      border-radius: 3px;
+      cursor: pointer; }
+      .Home .addChannel form input[type="submit"]:hover {
+        background: #146fe9; }
+
+.simpleBar {
+  max-height: 80%; }
+
+.messages .message {
+  display: flex;
+  margin-bottom: 30px; }
+  .messages .message:first-child {
+    margin-top: 45px; }
+  .messages .message:last-child {
+    margin-bottom: 20px; }
+  .messages .message .image {
+    margin-right: 20px; }
+    .messages .message .image img {
+      width: 40px;
+      border-radius: 6px; }
+  .messages .message .other p {
+    margin: 0;
+    color: #e0e0e0; }
+    .messages .message .other p:first-child {
+      margin-bottom: 6px;
+      color: #828282; }
+
+.unread {
+  position: absolute;
+  top: 7px;
+  left: 19px;
+  font-size: 0.5rem;
+  color: green; }

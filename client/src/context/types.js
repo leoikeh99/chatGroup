@@ -1,0 +1,15 @@
+export const AUTH = "AUTH";
+export const AUTH_FAIL = "AUTH_FAIL";
+export const GET_USER = "GET_USER";
+export const GET_USER_FAIL = "GET_USER_FAIL";
+export const SET_LOADER = "SET_LOADER";
+export const CREATE_CHANNEL = "CREATE_CHANNEL";
+export const GET_CHANNELS = "GET_CHANNELS";
+export const SEARCH_CHANNELS = "SEARCH_CHANNELS";
+export const JOIN_CHANNEL = "JOIN_CHANNEL";
+export const GET_MY_CHANNELS = "GET_MY_CHANNELS";
+export const FILTER_USER_CHANNELS = "FILTER_USER_CHANNELS";
+export const GET_MESSAGES = "GET_MESSAGES";
+export const ADD_MESSAGE = "ADD_MESSAGE";
+export const GET_UNREAD = "GET_UNREAD";
+export const SET_UNREAD = "SET_UNREAD";

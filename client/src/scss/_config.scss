@@ -1,6 +1,35 @@
 $background: #120f13;
 $background2: #252329;
-$backgorund3: #0b090c;
+$background3: #0b090c;
 $textColor: #e0e0e0;
 $textColor2: #828282;
 $primary: #2f80ed;
+$inputBackground: #3c393f;
+$iconBackground: #252329;
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
