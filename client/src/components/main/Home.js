@@ -23,6 +23,7 @@ const Home = ({ match }) => {
     userChannels,
     getMessages,
     addMessage,
+    getLastMessages,
   } = ChannelContext;
 
   useEffect(() => {
@@ -35,6 +36,7 @@ const Home = ({ match }) => {
       getChannels();
       getUserChannels();
       getMessages();
+      getLastMessages();
     }
   }, [user]);
 

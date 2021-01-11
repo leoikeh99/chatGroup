@@ -8,8 +8,8 @@ import {
   FILTER_USER_CHANNELS,
   GET_MESSAGES,
   ADD_MESSAGE,
-  GET_UNREAD,
-  SET_UNREAD,
+  GET_LAST_MESSAGES,
+  SET_LAST_MESSAGES,
 } from "../types";
 export default (state, action) => {
   switch (action.type) {
@@ -87,6 +87,26 @@ export default (state, action) => {
             ? { ...message, messages: [...message.messages, action.payload] }
             : message
         ),
+      };
+
+    case GET_LAST_MESSAGES:
+      return {
+        ...state,
+        lastMessages: action.payload,
+      };
+
+    case SET_LAST_MESSAGES:
+      return {
+        ...state,
+        lastMessages: state.lastMessages.some((lm) => (lm) =>
+          lm.channelId === action.payload.channelId
+        )
+          ? state.lastMessages.map((lm) =>
+              lm.channelId === action.payload.channelId
+                ? { ...lm, ...action.payload }
+                : lm
+            )
+          : [...state.lastMessages, action.payload],
       };
 
     default:

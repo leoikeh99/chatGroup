@@ -11,8 +11,8 @@ import {
   FILTER_USER_CHANNELS,
   GET_MESSAGES,
   ADD_MESSAGE,
-  GET_UNREAD,
-  SET_UNREAD,
+  GET_LAST_MESSAGES,
+  SET_LAST_MESSAGES,
 } from "../types";
 import setAuthToken from "../../functions/setAuthToken";
 import axios from "axios";
@@ -26,6 +26,7 @@ const ChannelState = (props) => {
     filteredChannels: null,
     userChannels: [],
     messages: [],
+    lastMessages: [],
     status: null,
   };
 
@@ -126,6 +127,19 @@ const ChannelState = (props) => {
   const addMessage = (message) =>
     dispatch({ type: ADD_MESSAGE, payload: message });
 
+  const getLastMessages = async () => {
+    if (localStorage.getItem("token")) {
+      setAuthToken(localStorage.getItem("token"));
+    }
+    try {
+      const res = await axios.get("/api/messages/lastMessages");
+      dispatch({ type: GET_LAST_MESSAGES, payload: res.data });
+    } catch (err) {}
+  };
+
+  const setLastMessages = (data) =>
+    dispatch({ type: SET_LAST_MESSAGES, payload: data });
+
   return (
     <channelContext.Provider
       value={{
@@ -136,6 +150,7 @@ const ChannelState = (props) => {
         userChannels: state.userChannels,
         filteredChannels: state.filteredChannels,
         messages: state.messages,
+        lastMessages: state.lastMessages,
         getMessages,
         addMessage,
         createChannel,
@@ -144,6 +159,8 @@ const ChannelState = (props) => {
         joinChannel,
         getUserChannels,
         filterUserChannels,
+        getLastMessages,
+        setLastMessages,
       }}
     >
       {props.children}

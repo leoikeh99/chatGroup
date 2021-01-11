@@ -3,6 +3,7 @@ const config = require("config");
 const Message = require("./models/Message");
 const Channel = require("./models/Channel");
 const User = require("./models/User");
+const LastMessage = require("./models/LastMessage");
 
 module.exports = (io) => {
   io.on("connection", (socket) => {
@@ -36,6 +37,25 @@ module.exports = (io) => {
                 text,
               });
               await message.save();
+
+              const check = await LastMessage.findOne({
+                userId: senderId,
+                channelId: id,
+              });
+              if (check) {
+                await LastMessage.findByIdAndUpdate(
+                  check.id,
+                  { $set: { lastMessage: message.id } },
+                  { new: true }
+                );
+              } else {
+                const lastmessage = new LastMessage({
+                  userId: senderId,
+                  channelId: id,
+                  lastMessage: message.id,
+                });
+                await lastmessage.save();
+              }
               socket.to(id).emit("recieveMessage", message);
             }
           }

@@ -30,12 +30,24 @@ const truncate = (text) => {
   }
 };
 
-const getUnread = (id, unread) => {
-  if (unread.length !== 0) {
-    const check = unread.find((un) => id === un.channelId);
+const getUnread = (id, lastMessages, messages) => {
+  if (lastMessages.length !== 0) {
+    const lm = lastMessages.find((lm) => lm.channelId === id);
 
-    if (check) {
-      return check.unread;
+    if (lm) {
+      const messageArr = messages.find((m) => m.channelId === id);
+      if (messageArr) {
+        if (
+          lm.lastMessage ===
+          messageArr.messages[messageArr.messages.length - 1]._id
+        ) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
     } else {
       return false;
     }

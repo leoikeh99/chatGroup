@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const UnreadSchema = mongoose.Schema({
+const lastMessageSchema = mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -15,4 +15,4 @@ const UnreadSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("unreadMessages", UnreadSchema);
+module.exports = mongoose.model("lastMessages", lastMessageSchema);

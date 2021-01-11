@@ -13,7 +13,7 @@ const ChannelItem = ({ channel, match }) => {
   const { user } = AuthContext;
 
   const ChannelContext = useContext(channelContext);
-  const { joinChannel, userChannels, unread, messages } = ChannelContext;
+  const { joinChannel, userChannels, lastMessages, messages } = ChannelContext;
 
   const join = (id) => {
     joinChannel(id);
@@ -32,6 +32,9 @@ const ChannelItem = ({ channel, match }) => {
     <Link to={`/${channel._id}`}>
       {userChannels && userChannels.length !== 0 ? (
         <li onClick={open} className="channelItem">
+          {getUnread(channel._id, lastMessages, messages) && (
+            <i class="fas fa-circle unread"></i>
+          )}
           <span>{getInitials(channel.name)}</span>
           <p>{truncate(channel.name)}</p>
           {!userChannels.channels.some((val) => val._id === channel._id) ? (

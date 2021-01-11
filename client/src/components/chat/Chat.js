@@ -17,7 +17,13 @@ const Chat = ({ match, setHome, socket, user }) => {
   const [messages2, setMessages2] = useState([]);
 
   const ChannelContext = useContext(channelContext);
-  const { userChannels, messages, addMessage } = ChannelContext;
+  const {
+    userChannels,
+    messages,
+    addMessage,
+    setLastMessages,
+    lastMessages,
+  } = ChannelContext;
 
   useEffect(() => {
     if (match.params.id && messages2.length !== 0) {
@@ -29,8 +35,20 @@ const Chat = ({ match, setHome, socket, user }) => {
           "Content-Type": "application/json",
         },
       };
-
-      //onrecievemessage
+      const data = {
+        channelId: messages2[messages2.length - 1].channelId,
+        lastMessage: messages2[messages2.length - 1]._id,
+      };
+      setLastMessages({
+        channelId: data.channelId,
+        lastMessage: data.lastMessage,
+      });
+      if (isObjId(messages2[messages2.length - 1]._id)) {
+        axios
+          .post("/api/messages/lastMessages", data, config)
+          .then((res) => console.log(res.data))
+          .catch((err) => console.log(err));
+      }
     }
   }, [match.params.id, messages2]);
 
@@ -76,13 +94,14 @@ const Chat = ({ match, setHome, socket, user }) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     if (text.trim() !== "") {
-      addMessage({
+      const data = {
         text,
         channelId: id,
         senderName: user.username,
         createdAt: Date.now(),
         _id: uuidv4(),
-      });
+      };
+      addMessage(data);
       socket.emit("sendMessage", { id, text, token });
     }
   };
