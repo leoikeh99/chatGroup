@@ -4,7 +4,8 @@ import MyChannels from "../channel/MyChannels";
 import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
 import channelContext from "../../context/channelContext/channelContext";
-import { tint } from "../../functions/helperFunctions";
+import { tint, truncate } from "../../functions/helperFunctions";
+import av from "../../img/av.png";
 
 const SideNav = ({ user, match }) => {
   const [tabs, setTabs] = useState(0);
@@ -17,7 +18,10 @@ const SideNav = ({ user, match }) => {
     const selectTab = document.getElementById("selectTab");
     const tabs = document.querySelector(".tabs");
     const icon = document.querySelector("#selectTab i");
+    const bottom = document.querySelector(".bottom");
+    const options = document.querySelector(".options");
     var count = 0;
+    var count2 = 0;
     selectTab.addEventListener("click", () => {
       count++;
       if (count % 2 !== 0) {
@@ -33,6 +37,15 @@ const SideNav = ({ user, match }) => {
       icon.style.transform = "rotate(360deg)";
       tabs.style.display = "none";
     });
+
+    bottom.addEventListener("click", () => {
+      count2++;
+      if (count2 % 2 !== 0) {
+        options.style.display = "block";
+      } else {
+        options.style.display = "none";
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -43,6 +56,13 @@ const SideNav = ({ user, match }) => {
     tint();
     addChannel.style.display = "block";
   };
+
+  const showProfile = () => {
+    const profile = document.querySelector(".profile");
+    profile.style.display = "block";
+    tint();
+  };
+
   return (
     <div className="rel">
       <div className="top">
@@ -51,7 +71,7 @@ const SideNav = ({ user, match }) => {
           <li onClick={() => setTabs(1)}>My Channels</li>
         </ul>
         <p id="selectTab">
-          <i class="fas fa-angle-down"></i>{" "}
+          <i className="fas fa-angle-down"></i>{" "}
           {tabs === 0 ? "All Channels" : "My Channels"}
         </p>
         <i className="fas fa-plus iconBtn" onClick={showAdd}></i>
@@ -60,7 +80,7 @@ const SideNav = ({ user, match }) => {
         <div className="body">
           <div className="pad">
             <div className="cover">
-              <i class="fas fa-search"></i>
+              <i className="fas fa-search"></i>
               <input
                 type="text"
                 placeholder="Search"
@@ -76,7 +96,26 @@ const SideNav = ({ user, match }) => {
         </div>
       </SimpleBar>
       <div className="bottom">
-        <p>{user && user.username}</p> <i class="fas fa-angle-down"></i>
+        <div className="cover">
+          <ul className="options">
+            <li onClick={showProfile}>
+              <i className="fas fa-user"></i> My Profile
+            </li>
+            <li>
+              <i className="fas fa-sign-out-alt"></i> Logout
+            </li>
+          </ul>
+          <div className="first">
+            <div className="image">
+              <img
+                src={user && user.avatar ? `/api/user/avatar/${user._id}` : av}
+                alt=""
+              />
+            </div>
+            <p>{user && truncate(user.username)}</p>
+          </div>
+          <i className="fas fa-angle-down"></i>
+        </div>
       </div>
     </div>
   );

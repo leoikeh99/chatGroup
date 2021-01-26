@@ -11,22 +11,28 @@ router.post("/", auth, async (req, res) => {
   const creator = req.user.id;
   const { name, desc } = req.body;
   try {
-    const channel = new Channel({
-      name,
-      desc,
-      creator,
-    });
+    const checkName = await Channel.findOne({ name });
+    if (checkName) {
+      return res.status(400).json({ msg: "Channel already exists" });
+    } else {
+      const channel = new Channel({
+        name,
+        desc,
+        creator,
+      });
 
-    const user = await User.findById(creator);
-    const member = new Member({
-      memberId: creator,
-      channel: channel.id,
-      username: user.username,
-    });
+      const user = await User.findById(creator);
+      const member = new Member({
+        memberId: creator,
+        channel: channel.id,
+        username: user.username,
+        avatar: user.avatar ? true : false,
+      });
 
-    await channel.save();
-    await member.save();
-    res.json({ channel, member });
+      await channel.save();
+      await member.save();
+      res.json({ channel, member });
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ msg: "server error" });
@@ -42,7 +48,12 @@ router.post("/join/:id", auth, async (req, res) => {
       return res.status(400).json({ msg: "Already a member" });
     } else {
       const user = await User.findById(memberId);
-      const join = new Member({ memberId, channel, username: user.username });
+      const join = new Member({
+        memberId,
+        channel,
+        username: user.username,
+        avatar: user.avatar ? true : false,
+      });
       await join.save();
 
       const messages = await Message.find({ channelId: channel });

@@ -4,6 +4,7 @@ import channelReducer from "./channelReducer";
 import {
   CREATE_CHANNEL,
   GET_CHANNELS,
+  CREATE_CHANNEL_FAIL,
   SET_LOADER,
   SEARCH_CHANNELS,
   JOIN_CHANNEL,
@@ -27,7 +28,7 @@ const ChannelState = (props) => {
     userChannels: [],
     messages: [],
     lastMessages: [],
-    status: null,
+    status2: null,
   };
 
   const [state, dispatch] = useReducer(channelReducer, initialState);
@@ -89,11 +90,11 @@ const ChannelState = (props) => {
         "Content-Type": "application/json",
       },
     };
-    setLoader();
     try {
       const res = await axios.post("/api/channel", data, config);
       dispatch({ type: CREATE_CHANNEL, payload: res.data });
     } catch (err) {
+      dispatch({ type: CREATE_CHANNEL_FAIL, payload: err.response.data.msg });
       console.error(err);
     }
   };
@@ -151,6 +152,7 @@ const ChannelState = (props) => {
         filteredChannels: state.filteredChannels,
         messages: state.messages,
         lastMessages: state.lastMessages,
+        status2: state.status2,
         getMessages,
         addMessage,
         createChannel,

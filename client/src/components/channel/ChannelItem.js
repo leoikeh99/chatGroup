@@ -33,7 +33,7 @@ const ChannelItem = ({ channel, match }) => {
       {userChannels && userChannels.length !== 0 ? (
         <li onClick={open} className="channelItem">
           {getUnread(channel._id, lastMessages, messages) && (
-            <i class="fas fa-circle unread"></i>
+            <i className="fas fa-circle unread"></i>
           )}
           <span>{getInitials(channel.name)}</span>
           <p>{truncate(channel.name)}</p>
@@ -43,7 +43,7 @@ const ChannelItem = ({ channel, match }) => {
               onClick={() => join(channel._id)}
             ></i>
           ) : (
-            <i class="fas fa-check"></i>
+            <i className="fas fa-check"></i>
           )}
         </li>
       ) : null}

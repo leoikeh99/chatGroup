@@ -1,14 +1,33 @@
-import React from "react";
+import React, { Fragment } from "react";
 
-const Spinner = () => {
+const Spinner = ({ type }) => {
   return (
-    <div class="sk-wave">
-      <div class="sk-wave-rect"></div>
-      <div class="sk-wave-rect"></div>
-      <div class="sk-wave-rect"></div>
-      <div class="sk-wave-rect"></div>
-      <div class="sk-wave-rect"></div>
-    </div>
+    <Fragment>
+      {!type || type === 1 ? (
+        <div className="sk-wave">
+          <div className="sk-wave-rect"></div>
+          <div className="sk-wave-rect"></div>
+          <div className="sk-wave-rect"></div>
+          <div className="sk-wave-rect"></div>
+          <div className="sk-wave-rect"></div>
+        </div>
+      ) : type === 2 ? (
+        <div className="sk-circle-fade">
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+          <div className="sk-circle-fade-dot"></div>
+        </div>
+      ) : null}
+    </Fragment>
   );
 };
 

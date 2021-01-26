@@ -15,6 +15,8 @@ const Chat = ({ match, setHome, socket, user }) => {
   const [loading, setLoading] = useState(null);
   const [text, setText] = useState("");
   const [messages2, setMessages2] = useState([]);
+  const [unread, setUnread] = useState(null);
+  const [count, setCount] = useState(0);
 
   const ChannelContext = useContext(channelContext);
   const {
@@ -24,6 +26,51 @@ const Chat = ({ match, setHome, socket, user }) => {
     setLastMessages,
     lastMessages,
   } = ChannelContext;
+
+  useEffect(() => {
+    if (match.params.id !== undefined) {
+      setCount(0);
+      setUnread(null);
+      setMessages2([]);
+    }
+  }, [match.params.id]);
+
+  useEffect(() => {
+    if (match.params.id !== undefined) {
+      const lastMessage = lastMessages.find(
+        (lm) => lm.channelId === match.params.id
+      );
+      if (messages2.length !== 0 && lastMessage) {
+        if (
+          lastMessage.lastMessage !== messages2[messages2.length - 1]._id &&
+          count === 0
+        ) {
+          setUnread(lastMessage.lastMessage);
+          setCount(count + 1);
+
+          const lm = document.getElementById(lastMessage.lastMessage);
+          if (lm) {
+            const scrollTo = lm.offsetTop;
+            document.querySelector(
+              "#sm .simplebar-content-wrapper"
+            ).scrollTop = scrollTo;
+          }
+        } else if (
+          lastMessage.lastMessage === messages2[messages2.length - 1]._id
+        ) {
+          setCount(count + 1);
+
+          const lm = document.getElementById(lastMessage.lastMessage);
+          if (lm) {
+            const scrollTo = lm.offsetTop;
+            document.querySelector(
+              "#sm .simplebar-content-wrapper"
+            ).scrollTop = scrollTo;
+          }
+        }
+      }
+    }
+  }, [match.params.id, messages2, lastMessages]);
 
   useEffect(() => {
     if (match.params.id && messages2.length !== 0) {
@@ -39,10 +86,12 @@ const Chat = ({ match, setHome, socket, user }) => {
         channelId: messages2[messages2.length - 1].channelId,
         lastMessage: messages2[messages2.length - 1]._id,
       };
+
       setLastMessages({
         channelId: data.channelId,
         lastMessage: data.lastMessage,
       });
+
       if (isObjId(messages2[messages2.length - 1]._id)) {
         axios
           .post("/api/messages/lastMessages", data, config)
@@ -100,39 +149,81 @@ const Chat = ({ match, setHome, socket, user }) => {
         senderName: user.username,
         createdAt: Date.now(),
         _id: uuidv4(),
+        avatar: user.avatar,
+        senderId: user._id,
       };
+      console.log(data);
       addMessage(data);
-      socket.emit("sendMessage", { id, text, token });
+      socket.emit("sendMessage", { id, text, token, avatar: user.avatar });
+      setCount(null);
+      setUnread(null);
     }
   };
+
+  useEffect(() => {
+    var count = 0;
+    const sidenav = document.querySelector(".sideNav");
+    const sidenav2 = document.querySelector(".sideNav2");
+    const menu = document.querySelector(".menu");
+    if (menu) {
+      menu.addEventListener("click", () => {
+        count++;
+        if (count % 2 !== 0) {
+          sidenav.style.animation = "slideIn 0.1s ease-in forwards";
+          sidenav2.style.animation = "slideIn 0.1s ease-in forwards";
+          menu.className = "fas fa-bars menu";
+        } else {
+          sidenav.style.animation = "slideOut 0.1s ease-in forwards";
+          menu.className = "fas fa-times menu";
+        }
+      });
+    }
+  }, [current]);
 
   return (
     <section className="chat">
       <div className="top">
         <div className="container2">
-          <p className="title">{current && current.channel.name}</p>
+          <div className="space">
+            <p className="title">{current && current.channel.name}</p>
+            {current && <i className="fas fa-bars menu"></i>}
+          </div>
         </div>
       </div>
       {current && current.joined && (
         <Fragment>
-          <SimpleBar className="simpleBar">
+          <SimpleBar className="simpleBar" id="sm">
             <div className="container2">
-              <div className="messages">
+              <div className="messages" id="ms">
                 {messages2.map((message) => (
-                  <div key={message._id} className="message">
-                    <div className="image">
-                      <img src={av} alt="" />
+                  <Fragment>
+                    <div key={message._id} id={message._id} className="message">
+                      <div className="image">
+                        <img
+                          src={
+                            message.avatar
+                              ? `/api/user/avatar/${message.senderId}`
+                              : av
+                          }
+                          alt=""
+                        />
+                      </div>
+                      <div className="other">
+                        <p>
+                          {message.senderName}
+                          <small style={{ marginLeft: "15px" }}>
+                            {moment(message.createdAt).calendar()}
+                          </small>
+                        </p>
+                        <p>{message.text}</p>
+                      </div>
                     </div>
-                    <div className="other">
-                      <p>
-                        {message.senderName}
-                        <small style={{ marginLeft: "15px" }}>
-                          {moment(message.createdAt).calendar()}
-                        </small>
-                      </p>
-                      <p>{message.text}</p>
-                    </div>
-                  </div>
+                    {message._id === unread ? (
+                      <div id="um">
+                        <span> UNREAD MESSAGES</span>
+                      </div>
+                    ) : null}
+                  </Fragment>
                 ))}
               </div>
             </div>
@@ -147,7 +238,7 @@ const Chat = ({ match, setHome, socket, user }) => {
                 placeholder="Type message here"
               />
               <button>
-                <i class="far fa-paper-plane"></i>
+                <i className="far fa-paper-plane"></i>
               </button>
             </div>
           </form>

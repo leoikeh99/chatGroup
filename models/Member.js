@@ -15,6 +15,10 @@ const memberSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  avatar: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("members", memberSchema);

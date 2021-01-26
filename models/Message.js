@@ -18,6 +18,10 @@ const messagesSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

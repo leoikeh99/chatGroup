@@ -1,4 +1,12 @@
-import { AUTH, AUTH_FAIL, GET_USER, SET_LOADER, GET_USER_FAIL } from "../types";
+import {
+  AUTH,
+  AUTH_FAIL,
+  GET_USER,
+  SET_LOADER,
+  GET_USER_FAIL,
+  UPDATE_PROFILE,
+  SET_LOADER2,
+} from "../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -38,10 +46,24 @@ export default (state, action) => {
         error: action.payload,
       };
 
+    case UPDATE_PROFILE:
+      return {
+        ...state,
+        status: { type: "success", msg: action.payload.msg },
+        user: action.payload.user2,
+        loading2: null,
+      };
+
     case SET_LOADER:
       return {
         ...state,
         loading: true,
+      };
+
+    case SET_LOADER2:
+      return {
+        ...state,
+        loading2: true,
       };
     default:
       return state;

@@ -16,6 +16,28 @@
   100% {
     transform: translate3d(-100%, 0, 0); } }
 
+@keyframes alertIn {
+  0% {
+    right: -300px; }
+  100% {
+    right: 20px; } }
+
+@keyframes alertOut {
+  0% {
+    right: 20px; }
+  100% {
+    right: -300px; } }
+
+@media screen and (max-width: 600px) {
+  .Home .main {
+    padding-left: 0px !important; }
+  .chat .top .menu {
+    display: block !important; } }
+
+@media screen and (min-width: 600px) {
+  .sideNav {
+    transform: translate3d(0, 0, 0) !important; } }
+
 body {
   font-family: "Noto Sans", sans-serif;
   background-color: #120f13;
@@ -48,6 +70,18 @@ body {
   justify-content: center;
   align-items: center; }
 
+.space {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
+.status {
+  width: 300px;
+  position: fixed;
+  top: 70px;
+  right: -300px;
+  z-index: 4; }
+
 .mt-1 {
   margin-top: 5px; }
 
@@ -59,7 +93,7 @@ body {
   width: 100%;
   background: #000;
   opacity: 0.7;
-  z-index: 1;
+  z-index: 3;
   display: none;
   opacity: 0; }
 
@@ -99,7 +133,8 @@ body {
       font-weight: 600;
       list-style: none;
       display: flex;
-      align-items: center; }
+      align-items: center;
+      position: relative; }
       .Home .sideNav2 ul li .image {
         margin-right: 20px; }
         .Home .sideNav2 ul li .image img {
@@ -107,6 +142,10 @@ body {
           border-radius: 7px; }
       .Home .sideNav2 ul li p {
         margin-bottom: 20px; }
+      .Home .sideNav2 ul li .admin {
+        position: absolute;
+        top: 0;
+        right: 0; }
 
 .Home .sideNav,
 .Home .sideNav2 {
@@ -115,7 +154,8 @@ body {
   left: 0;
   width: 240px;
   background-color: #120f13;
-  height: 100vh; }
+  height: 100vh;
+  z-index: 2; }
   .Home .sideNav .top,
   .Home .sideNav2 .top {
     padding: 12px;
@@ -135,17 +175,20 @@ body {
       margin: 0;
       padding: 0;
       margin-top: 20px;
-      background: #120f13;
+      background: #252329;
       box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.25);
+      padding: 7px;
+      border-radius: 10px;
       display: none; }
       .Home .sideNav .top .tabs li,
       .Home .sideNav2 .top .tabs li {
         list-style: none;
         padding: 10px 15px;
-        cursor: pointer; }
+        cursor: pointer;
+        border-radius: 10px; }
         .Home .sideNav .top .tabs li:hover,
         .Home .sideNav2 .top .tabs li:hover {
-          background: #1a161c; }
+          background: #3c393f; }
     .Home .sideNav .top p,
     .Home .sideNav2 .top p {
       margin: 0;
@@ -234,17 +277,52 @@ body {
   height: 100vh; }
 
 .Home .bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
+  padding: 12px 20px;
   position: absolute;
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
-  background: #0b090c; }
-  .Home .bottom p {
-    margin: 0; }
+  background: #0b090c;
+  cursor: pointer; }
+  .Home .bottom .cover {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+    .Home .bottom .cover .first {
+      display: flex;
+      align-items: center; }
+      .Home .bottom .cover .first p {
+        margin: 0;
+        margin-left: 10px; }
+      .Home .bottom .cover .first .image {
+        width: 30px;
+        height: 100%; }
+        .Home .bottom .cover .first .image img {
+          border-radius: 5px;
+          width: 100%;
+          height: 100%; }
+    .Home .bottom .cover .options {
+      position: absolute;
+      top: -115px;
+      right: -10px;
+      padding: 10px;
+      background: #252329;
+      border-radius: 10px;
+      display: none; }
+      .Home .bottom .cover .options li {
+        list-style: none;
+        padding: 10px;
+        color: #e0e0e0;
+        width: 120px;
+        border-radius: 10px;
+        font-weight: normal; }
+        .Home .bottom .cover .options li i {
+          margin-right: 10px; }
+        .Home .bottom .cover .options li:hover {
+          background: #3c393f; }
+        .Home .bottom .cover .options li:last-child {
+          color: #eb5757; }
 
 .Home .main {
   width: 100%;
@@ -268,6 +346,9 @@ body {
       margin: 0; }
     .Home .chat .top .title {
       font-weight: 600; }
+    .Home .chat .top .menu {
+      display: none;
+      cursor: pointer; }
   .Home .chat form {
     position: absolute;
     padding-bottom: 30px;
@@ -299,10 +380,63 @@ body {
       .Home .chat form button i {
         color: #e0e0e0; }
 
+.Home .profile {
+  height: 170px;
+  width: 300px;
+  z-index: 3;
+  background: #120f13;
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 15px;
+  display: none; }
+  .Home .profile h4 {
+    margin: 0px; }
+  .Home .profile form {
+    padding-top: 12px; }
+    .Home .profile form i {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.2rem;
+      cursor: pointer; }
+    .Home .profile form .image {
+      width: 50px; }
+      .Home .profile form .image img {
+        width: 100%;
+        border-radius: 50%; }
+    .Home .profile form input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      border: 0;
+      background: #3c393f;
+      border-radius: 5px;
+      margin-bottom: 8px;
+      color: #e0e0e0; }
+    .Home .profile form input[type="submit"],
+    .Home .profile form input[type="button"] {
+      padding: 8px 18px;
+      border: 0px;
+      background: #2f80ed;
+      color: #e0e0e0;
+      border-radius: 3px;
+      cursor: pointer; }
+      .Home .profile form input[type="submit"]:hover,
+      .Home .profile form input[type="button"]:hover {
+        background: #146fe9; }
+    .Home .profile form input[type="button"] {
+      background: #eb5757;
+      margin-right: 5px; }
+      .Home .profile form input[type="button"]:hover {
+        background: #e83c3c; }
+    .Home .profile form input[type="file"] {
+      height: 0;
+      width: 0; }
+
 .Home .addChannel {
   height: 250px;
   width: 400px;
-  z-index: 2;
+  z-index: 3;
   background: #120f13;
   box-sizing: border-box;
   padding: 20px;
@@ -364,6 +498,15 @@ body {
     .messages .message .other p:first-child {
       margin-bottom: 6px;
       color: #828282; }
+
+.messages #um {
+  margin-bottom: 20px;
+  text-align: center; }
+  .messages #um span {
+    font-size: 0.7rem;
+    padding: 7px 10px;
+    border-radius: 20px;
+    background: #120f13; }
 
 .unread {
   position: absolute;

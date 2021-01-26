@@ -19,7 +19,7 @@ module.exports = (io) => {
 
     // send a message to a room
     socket.on("sendMessage", async (data) => {
-      const { id, text, token } = data;
+      const { id, text, token, avatar } = data;
       const senderId = jwt.verify(token, config.get("jwtSecret")).user.id;
       if (senderId) {
         try {
@@ -35,6 +35,7 @@ module.exports = (io) => {
                 senderName,
                 senderId,
                 text,
+                avatar: avatar ? true : false,
               });
               await message.save();
 

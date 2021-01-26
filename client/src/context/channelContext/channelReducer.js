@@ -1,5 +1,6 @@
 import {
   CREATE_CHANNEL,
+  CREATE_CHANNEL_FAIL,
   GET_CHANNELS,
   SET_LOADER,
   SEARCH_CHANNELS,
@@ -11,6 +12,7 @@ import {
   GET_LAST_MESSAGES,
   SET_LAST_MESSAGES,
 } from "../types";
+
 export default (state, action) => {
   switch (action.type) {
     case SET_LOADER:
@@ -20,7 +22,6 @@ export default (state, action) => {
       };
 
     case CREATE_CHANNEL:
-      console.log(action.payload);
       return {
         ...state,
         loading: null,
@@ -30,6 +31,18 @@ export default (state, action) => {
           channels: [...state.userChannels.channels, action.payload.channel],
           members: [...state.userChannels.members, [action.payload.member]],
         },
+        messages: [
+          ...state.messages,
+          { channelId: action.payload.channel._id, messages: [] },
+        ],
+        status2: { type: "success", msg: "Channel created successfully" },
+      };
+
+    case CREATE_CHANNEL_FAIL:
+      return {
+        ...state,
+        loading: null,
+        status2: { type: "error", msg: action.payload },
       };
 
     case GET_CHANNELS:
