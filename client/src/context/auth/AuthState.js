@@ -9,6 +9,8 @@ import {
   SET_LOADER2,
   GET_USER_FAIL,
   UPDATE_PROFILE,
+  UPDATE_PROFILE_FAIL,
+  CLEAR_ERROR,
 } from "../types";
 import axios from "axios";
 import setAuthToken from "../../functions/setAuthToken";
@@ -28,6 +30,7 @@ const AuthState = (props) => {
 
   const setLoader = () => dispatch({ type: SET_LOADER });
   const setLoader2 = () => dispatch({ type: SET_LOADER2 });
+  const clearError = () => dispatch({ type: CLEAR_ERROR });
 
   const auth = async (type, data) => {
     const config = {
@@ -70,7 +73,9 @@ const AuthState = (props) => {
     try {
       const res = await axios.put("/api/user", formData, config);
       dispatch({ type: UPDATE_PROFILE, payload: res.data });
-    } catch (err) {}
+    } catch (err) {
+      dispatch({ type: UPDATE_PROFILE_FAIL, payload: err.response.data.msg });
+    }
   };
 
   return (
@@ -86,6 +91,7 @@ const AuthState = (props) => {
         auth,
         getUser,
         updateProfile,
+        clearError,
       }}
     >
       {props.children}

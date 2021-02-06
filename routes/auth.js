@@ -6,8 +6,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 var validator = require("email-validator");
+const Member = require("../models/Member");
 
 const User = require("../models/User");
+const Channel = require("../models/Channel");
 
 //Login a user
 router.post(
@@ -86,13 +88,13 @@ router.post(
     const { username, email, password } = req.body;
     try {
       const checkUsername = await User.findOne({ username });
-      const checkemail = await User.findOne({ email });
+      const checkEmail = await User.findOne({ email });
 
       if (checkUsername) {
-        return res.status(400).json({ msg: "username already exists" });
+        return res.status(400).json({ msg: "Username already exists" });
       }
-      if (checkemail) {
-        return res.status(400).json({ msg: "email already exists" });
+      if (checkEmail) {
+        return res.status(400).json({ msg: "Email already exists" });
       }
 
       var user = new User({
@@ -105,6 +107,16 @@ router.post(
       user.password = await bcrypt.hash(password, salt);
 
       await user.save();
+
+      const adminChannel = await Channel.findOne({ name: "Welcome" });
+
+      const member = new Member({
+        channel: adminChannel._id,
+        memberId: user.id,
+        username: user.username,
+      });
+
+      await member.save();
 
       const payload = {
         user: {
@@ -133,8 +145,18 @@ router.get("/", auth, async (req, res) => {
   const id = req.user.id;
 
   try {
+    const memberChannels = await Member.find({ memberId: id });
     const user = await User.findById(id).select("-password");
-    res.json(user);
+    const getChannels = memberChannels.map(async (val) => {
+      const channel = await Channel.findById(val.channel);
+      return channel;
+    });
+
+    Promise.all(getChannels)
+      .then((channels) => {
+        res.json({ ...user._doc, rooms: channels.map((val) => val._id) });
+      })
+      .catch((err) => res.status(500).json({ msg: "server error" }));
   } catch (err) {
     console.error(err);
     return res.status(500).json({ msg: "server error" });

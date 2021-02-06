@@ -45,11 +45,12 @@ const SideNav = ({ user, match }) => {
       } else {
         options.style.display = "none";
       }
-    });
+    }); // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     tabs === 0 ? searchChannels(text) : filterUserChannels(text);
+    // eslint-disable-next-line
   }, [text]);
   const showAdd = () => {
     const addChannel = document.querySelector(".addChannel");

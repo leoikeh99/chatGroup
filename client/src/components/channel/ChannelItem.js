@@ -4,14 +4,10 @@ import {
   truncate,
   getUnread,
 } from "../../functions/helperFunctions";
-import authContext from "../../context/auth/authContext";
 import channelContext from "../../context/channelContext/channelContext";
 import { Link } from "react-router-dom";
 
-const ChannelItem = ({ channel, match }) => {
-  const AuthContext = useContext(authContext);
-  const { user } = AuthContext;
-
+const ChannelItem = ({ channel }) => {
   const ChannelContext = useContext(channelContext);
   const { joinChannel, userChannels, lastMessages, messages } = ChannelContext;
 

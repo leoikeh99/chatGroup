@@ -1,7 +1,8 @@
-import React, { useContext, Fragment, useEffect } from "react";
+import React, { useContext, Fragment } from "react";
 import channelContext from "../../context/channelContext/channelContext";
 import ChannelItem from "./ChannelItem";
 import Spinner from "../layout/Spinner";
+import moment from "moment";
 
 const MyChannels = ({ text, match }) => {
   const ChannelContext = useContext(channelContext);
@@ -18,15 +19,19 @@ const MyChannels = ({ text, match }) => {
         <ul className="channelList">
           {!filteredChannels && text === "" ? (
             <Fragment>
-              {userChannels.channels.map((channel) => (
-                <ChannelItem
-                  key={channel._id}
-                  channel={channel}
-                  joinChannel={joinChannel}
-                  userChannels={userChannels}
-                  match={match}
-                />
-              ))}
+              {userChannels.channels
+                .sort((a, b) =>
+                  moment(a.lastMessage) > moment(b.lastMessage) ? -1 : 1
+                )
+                .map((channel) => (
+                  <ChannelItem
+                    key={channel._id}
+                    channel={channel}
+                    joinChannel={joinChannel}
+                    userChannels={userChannels}
+                    match={match}
+                  />
+                ))}
             </Fragment>
           ) : filteredChannels ? (
             <Fragment>

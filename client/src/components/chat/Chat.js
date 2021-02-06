@@ -7,12 +7,13 @@ import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
 import { isObjId } from "../../functions/helperFunctions";
 import av from "../../img/av.png";
+import joinImg from "../../img/join.svg";
+import Button from "@material-ui/core/Button";
 const moment = require("moment");
 
 const Chat = ({ match, setHome, socket, user }) => {
   const [id, setId] = useState(match.params.id);
   const [current, setCurrent] = useState(null);
-  const [loading, setLoading] = useState(null);
   const [text, setText] = useState("");
   const [messages2, setMessages2] = useState([]);
   const [unread, setUnread] = useState(null);
@@ -25,6 +26,8 @@ const Chat = ({ match, setHome, socket, user }) => {
     addMessage,
     setLastMessages,
     lastMessages,
+    channels,
+    joinChannel,
   } = ChannelContext;
 
   useEffect(() => {
@@ -33,6 +36,7 @@ const Chat = ({ match, setHome, socket, user }) => {
       setUnread(null);
       setMessages2([]);
     }
+    // eslint-disable-next-line
   }, [match.params.id]);
 
   useEffect(() => {
@@ -69,7 +73,7 @@ const Chat = ({ match, setHome, socket, user }) => {
           }
         }
       }
-    }
+    } // eslint-disable-next-line
   }, [match.params.id, messages2, lastMessages]);
 
   useEffect(() => {
@@ -95,10 +99,10 @@ const Chat = ({ match, setHome, socket, user }) => {
       if (isObjId(messages2[messages2.length - 1]._id)) {
         axios
           .post("/api/messages/lastMessages", data, config)
-          .then((res) => console.log(res.data))
-          .catch((err) => console.log(err));
+          .then((res) => console.log(""))
+          .catch((err) => console.log(""));
       }
-    }
+    } // eslint-disable-next-line
   }, [match.params.id, messages2]);
 
   useEffect(() => {
@@ -107,19 +111,18 @@ const Chat = ({ match, setHome, socket, user }) => {
       if (id && channel) {
         setCurrent({ channel, joined: true });
       } else if (id && !channel) {
-        setLoading(true);
-        axios
-          .get(`/api/channel/single/${id}`)
-          .then((res) => {
-            setLoading(null);
-            setCurrent({ channel: res.data, joined: false });
-          })
-          .catch((err) => {
-            setLoading(null);
-            setCurrent(null);
+        if (channels.find((val) => val._id === id)) {
+          setCurrent({
+            channel: channels.find((val) => val._id === id),
+            joined: false,
           });
+        } else {
+          setCurrent(null);
+          const sidenav2 = document.querySelector(".sideNav2");
+          sidenav2.style.animation = "slideIn 0.1s ease-in forwards";
+        }
       }
-    }
+    } // eslint-disable-next-line
   }, [id, userChannels]);
 
   useEffect(() => {
@@ -132,7 +135,7 @@ const Chat = ({ match, setHome, socket, user }) => {
               .messages
           );
       }
-    }
+    } // eslint-disable-next-line
   }, [current, messages]);
 
   useEffect(() => {
@@ -152,11 +155,11 @@ const Chat = ({ match, setHome, socket, user }) => {
         avatar: user.avatar,
         senderId: user._id,
       };
-      console.log(data);
       addMessage(data);
       socket.emit("sendMessage", { id, text, token, avatar: user.avatar });
       setCount(null);
       setUnread(null);
+      setText("");
     }
   };
 
@@ -196,7 +199,7 @@ const Chat = ({ match, setHome, socket, user }) => {
             <div className="container2">
               <div className="messages" id="ms">
                 {messages2.map((message) => (
-                  <Fragment>
+                  <Fragment key={message._id}>
                     <div key={message._id} id={message._id} className="message">
                       <div className="image">
                         <img
@@ -243,6 +246,18 @@ const Chat = ({ match, setHome, socket, user }) => {
             </div>
           </form>
         </Fragment>
+      )}
+      {current && !current.joined && (
+        <div className="join">
+          <img src={joinImg} alt="" />
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => joinChannel(current.channel._id)}
+          >
+            join Channel
+          </Button>
+        </div>
       )}
     </section>
   );

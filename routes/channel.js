@@ -31,7 +31,11 @@ router.post("/", auth, async (req, res) => {
 
       await channel.save();
       await member.save();
-      res.json({ channel, member });
+      res.json({
+        channel,
+        member,
+        messages: { channelId: channel._id, messages: [] },
+      });
     }
   } catch (err) {
     console.error(err.message);
@@ -75,17 +79,7 @@ router.post("/join/:id", auth, async (req, res) => {
 router.get("/", auth, async (req, res) => {
   try {
     const channels = await Channel.find({});
-    const response = [];
-    if (channels.length > 8) {
-      for (let i = 0; i <= 8; i++) {
-        if (channels[i]) {
-          response.push(channels[i]);
-        }
-      }
-      return res.json(response);
-    } else {
-      return res.json(channels);
-    }
+    res.json(channels);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ msg: "server error" });
@@ -142,11 +136,63 @@ router.get("/myChannels", auth, async (req, res) => {
         });
         Promise.all(channelMembers)
           .then((members) => {
-            res.json({ channels, members });
+            const lastMessages = channels.map(async (channel) => {
+              const lastMessage = await Message.find({ channelId: channel });
+              return lastMessage[lastMessage.length - 1];
+            });
+
+            Promise.all(lastMessages)
+              .then((messages) => {
+                const channel2 = channels.map((channel) =>
+                  messages
+                    .filter((val) => val !== undefined)
+                    .find(
+                      (val) =>
+                        val.channelId.toString() === channel._id.toString()
+                    )
+                    ? {
+                        ...channel._doc,
+                        lastMessage: messages
+                          .filter((val) => val !== undefined)
+                          .find(
+                            (val) =>
+                              val.channelId.toString() ===
+                              channel._id.toString()
+                          ).createdAt,
+                      }
+                    : {
+                        ...channel._doc,
+                        lastMessage: "2021-01-04T21:39:46+01:00",
+                      }
+                );
+                res.json({
+                  channels: channel2,
+                  members,
+                });
+              })
+              .catch((err) => res.status(400).json(err));
           })
           .catch((err) => res.status(400).json(err));
       })
       .catch((err) => res.status(400).json(err));
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ msg: "server error" });
+  }
+});
+
+router.delete("/:id", auth, async (req, res) => {
+  const memberId = req.user.id;
+  const channel = req.params.id;
+
+  try {
+    const check = await Channel.findById(channel);
+    if (!check) {
+      return res.status(400).json({ msg: "Invalid channel" });
+    }
+
+    await Member.findOneAndRemove({ memberId, channel });
+    res.json({ msg: "Left channel successfully" });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ msg: "server error" });

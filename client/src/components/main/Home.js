@@ -7,6 +7,7 @@ import SideNav2 from "../nav/SideNav2";
 import io from "socket.io-client";
 import Spinner from "../layout/Spinner";
 import Alert from "@material-ui/lab/Alert";
+import { checkImageType, truncate } from "../../functions/helperFunctions";
 const ENDPOINT = "/";
 var socket;
 
@@ -29,13 +30,13 @@ const Home = ({ match }) => {
     addMessage,
     getLastMessages,
     status2,
+    leaveChannel,
   } = ChannelContext;
 
   useEffect(() => {
     getUser();
     socket = io.connect(ENDPOINT);
-
-    const file = document.getElementById("file");
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -45,19 +46,23 @@ const Home = ({ match }) => {
       getMessages();
       getLastMessages();
       setUsername(user.username);
-    }
+
+      socket.emit("join", user.rooms);
+    } // eslint-disable-next-line
   }, [user]);
 
   useEffect(() => {
     const sidenav2 = document.querySelector(".sideNav2");
     const menu = document.querySelector(".menu");
-    if (current) {
-      if (current.joined) {
+    if (match.params.id) {
+      if (match.params.id) {
         sidenav2.style.animation = "slideOut 0.1s ease-in forwards";
-        menu.className = "fas fa-times menu";
+        if (menu) {
+          menu.className = "fas fa-times menu";
+        }
       }
-    }
-  }, [current]);
+    } // eslint-disable-next-line
+  }, [match.params.id]);
 
   const clear = (e) => {
     const overlay = document.querySelector(".overlay");
@@ -83,16 +88,12 @@ const Home = ({ match }) => {
   };
 
   useEffect(() => {
-    if (userChannels && userChannels.length !== 0) {
-      const rooms = userChannels.channels.map((channel) => channel._id);
-
-      socket.emit("join", rooms);
-
+    if (user) {
       socket.on("recieveMessage", (message) => {
         addMessage(message);
       });
-    }
-  }, [userChannels]);
+    } // eslint-disable-next-line
+  }, [user]);
 
   const selectAv = () => {
     const file = document.getElementById("file");
@@ -108,8 +109,13 @@ const Home = ({ match }) => {
     if (username && username.trim() !== "") {
       formData.append("data", JSON.stringify({ username }));
     }
-
-    updateProfile(formData);
+    if (avatar) {
+      if (checkImageType(avatar.type)) {
+        updateProfile(formData);
+      }
+    } else {
+      updateProfile(formData);
+    }
     console.log(formData);
   };
 
@@ -121,7 +127,7 @@ const Home = ({ match }) => {
       setTimeout(() => {
         statusView.style.animation = "alertOut 0.2s ease-in forwards";
       }, 2000);
-    }
+    } // eslint-disable-next-line
   }, [status]);
 
   useEffect(() => {
@@ -132,7 +138,7 @@ const Home = ({ match }) => {
       setTimeout(() => {
         statusView.style.animation = "alertOut 0.2s ease-in forwards";
       }, 2000);
-    }
+    } // eslint-disable-next-line
   }, [status2]);
 
   return (
@@ -172,7 +178,7 @@ const Home = ({ match }) => {
               />
               {avatar && (
                 <p style={{ margin: "0px", marginBottom: "8px" }}>
-                  Avatar: {avatar.name}
+                  Avatar: {truncate(avatar.name)}
                 </p>
               )}
               <input type="button" value="Upload avatar" onClick={selectAv} />
@@ -195,6 +201,8 @@ const Home = ({ match }) => {
           user={user}
           userChannels={userChannels}
           current={current}
+          leaveChannel={leaveChannel}
+          status2={status2}
         />
       </div>
       <div className="main">

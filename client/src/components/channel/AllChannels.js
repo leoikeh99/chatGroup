@@ -1,4 +1,4 @@
-import React, { useContext, Fragment } from "react";
+import React, { useContext, Fragment, useEffect } from "react";
 import channelContext from "../../context/channelContext/channelContext";
 import ChannelItem from "./ChannelItem";
 import Spinner from "../layout/Spinner";
@@ -6,6 +6,10 @@ import Spinner from "../layout/Spinner";
 const AllChannels = ({ text, match }) => {
   const ChannelContext = useContext(channelContext);
   const { channels, searchedChannels, loading } = ChannelContext;
+
+  useEffect(() => {
+    channels.reverse();
+  }, [channels]);
   return (
     <Fragment>
       {!loading ? (

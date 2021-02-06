@@ -11,9 +11,12 @@ import {
   ADD_MESSAGE,
   GET_LAST_MESSAGES,
   SET_LAST_MESSAGES,
+  LEAVE_CHANNEL,
+  SORT_USER_CHANNELS,
 } from "../types";
+import moment from "moment";
 
-export default (state, action) => {
+const channelReducer = (state, action) => {
   switch (action.type) {
     case SET_LOADER:
       return {
@@ -31,10 +34,7 @@ export default (state, action) => {
           channels: [...state.userChannels.channels, action.payload.channel],
           members: [...state.userChannels.members, [action.payload.member]],
         },
-        messages: [
-          ...state.messages,
-          { channelId: action.payload.channel._id, messages: [] },
-        ],
+        messages: [...state.messages, action.payload.messages],
         status2: { type: "success", msg: "Channel created successfully" },
       };
 
@@ -74,8 +74,18 @@ export default (state, action) => {
         ),
       };
 
+    case SORT_USER_CHANNELS:
+      return {
+        ...state,
+        userChannels: {
+          channels: state.userChannels.channels.sort((a, b) =>
+            moment(a.lastMessage) > moment(b.lastMessage) ? 1 : -1
+          ),
+          members: state.userChannels.members,
+        },
+      };
+
     case JOIN_CHANNEL:
-      console.log(action.payload);
       return {
         ...state,
         userChannels: {
@@ -84,6 +94,21 @@ export default (state, action) => {
           members: [...state.userChannels.members, action.payload.members],
         },
         messages: [...state.messages, action.payload.messages],
+      };
+
+    case LEAVE_CHANNEL:
+      return {
+        ...state,
+        userChannels: {
+          ...state.userChannels,
+          channels: state.userChannels.channels.filter(
+            (val) => val._id !== action.id
+          ),
+          members: state.userChannels.members.filter(
+            (val) => !val.some((val2) => val2.channel === action.id)
+          ),
+        },
+        status2: { type: "leaveChannel" },
       };
 
     case GET_MESSAGES:
@@ -100,6 +125,15 @@ export default (state, action) => {
             ? { ...message, messages: [...message.messages, action.payload] }
             : message
         ),
+        userChannels: {
+          ...state.userChannels,
+          channels: state.userChannels.channels.map((val) =>
+            val._id === action.payload.channelId
+              ? { ...val, lastMessage: action.payload.createdAt }
+              : val
+          ),
+          members: state.userChannels.members,
+        },
       };
 
     case GET_LAST_MESSAGES:
@@ -128,3 +162,5 @@ export default (state, action) => {
       };
   }
 };
+
+export default channelReducer;

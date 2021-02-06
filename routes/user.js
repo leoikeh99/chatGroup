@@ -51,7 +51,6 @@ router.get("/avatar/:id", async (req, res) => {
   try {
     const user = await User.findById(id);
     const checkAv = user.avatar;
-    console.log(checkAv);
     if (user.avatar) {
       gfs.files.findOne({ _id: checkAv }, (err, file) => {
         if (!file || file.length === 0) {
@@ -81,7 +80,13 @@ router.put("/", auth, upload.single("avatar"), async (req, res) => {
     const user = await User.findById(id);
     const update = {};
     const update2 = {};
-    if (username) update.username = username;
+    if (username) {
+      update.username = username;
+      const check = await User.findOne({ username });
+      if (check && check._id.toString() !== id) {
+        return res.status(400).json({ msg: "Username already taken" });
+      }
+    }
     if (username) update2.senderName = username;
 
     if (req.file) {
@@ -106,7 +111,14 @@ router.put("/", auth, upload.single("avatar"), async (req, res) => {
       }
     }
     await User.findByIdAndUpdate(id, { $set: update }, { new: true });
-    await Member.updateMany({ memberId: id }, { $set: update }, { new: true });
+
+    if (username) {
+      await Member.updateMany(
+        { memberId: id },
+        { $set: { username: username } },
+        { new: true }
+      );
+    }
     await Message.updateMany(
       { senderId: id },
       { $set: update2 },

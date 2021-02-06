@@ -5,10 +5,12 @@ import {
   SET_LOADER,
   GET_USER_FAIL,
   UPDATE_PROFILE,
+  UPDATE_PROFILE_FAIL,
   SET_LOADER2,
+  CLEAR_ERROR,
 } from "../types";
 
-export default (state, action) => {
+const authReducer = (state, action) => {
   switch (action.type) {
     case AUTH:
       localStorage.setItem("token", action.payload.token);
@@ -50,7 +52,14 @@ export default (state, action) => {
       return {
         ...state,
         status: { type: "success", msg: action.payload.msg },
-        user: action.payload.user2,
+        user: { ...state.user, ...action.payload.user2 },
+        loading2: null,
+      };
+
+    case UPDATE_PROFILE_FAIL:
+      return {
+        ...state,
+        status: { type: "info", msg: action.payload },
         loading2: null,
       };
 
@@ -65,7 +74,15 @@ export default (state, action) => {
         ...state,
         loading2: true,
       };
+
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
     default:
       return state;
   }
 };
+
+export default authReducer;

@@ -14,6 +14,8 @@ import {
   ADD_MESSAGE,
   GET_LAST_MESSAGES,
   SET_LAST_MESSAGES,
+  LEAVE_CHANNEL,
+  SORT_USER_CHANNELS,
 } from "../types";
 import setAuthToken from "../../functions/setAuthToken";
 import axios from "axios";
@@ -33,6 +35,7 @@ const ChannelState = (props) => {
 
   const [state, dispatch] = useReducer(channelReducer, initialState);
   const setLoader = () => dispatch({ type: SET_LOADER });
+  const sortUserChannels = () => dispatch({ type: SORT_USER_CHANNELS });
   const filterUserChannels = (name) =>
     dispatch({ type: FILTER_USER_CHANNELS, payload: name });
 
@@ -73,7 +76,6 @@ const ChannelState = (props) => {
     } else {
       try {
         const res = await axios.get(`/api/channel/search/${key}`);
-        console.log(res.data);
         dispatch({ type: SEARCH_CHANNELS, payload: res.data });
       } catch (err) {
         console.error(err);
@@ -107,6 +109,19 @@ const ChannelState = (props) => {
     try {
       const res = await axios.post(`/api/channel/join/${id}`);
       dispatch({ type: JOIN_CHANNEL, payload: res.data });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const leaveChannel = async (id) => {
+    if (localStorage.getItem("token")) {
+      setAuthToken(localStorage.getItem("token"));
+    }
+
+    try {
+      const res = await axios.delete(`/api/channel/${id}`);
+      dispatch({ type: LEAVE_CHANNEL, payload: res.data, id });
     } catch (err) {
       console.error(err);
     }
@@ -153,6 +168,7 @@ const ChannelState = (props) => {
         messages: state.messages,
         lastMessages: state.lastMessages,
         status2: state.status2,
+        leaveChannel,
         getMessages,
         addMessage,
         createChannel,
@@ -163,6 +179,7 @@ const ChannelState = (props) => {
         filterUserChannels,
         getLastMessages,
         setLastMessages,
+        sortUserChannels,
       }}
     >
       {props.children}

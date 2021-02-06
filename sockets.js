@@ -13,7 +13,6 @@ module.exports = (io) => {
     socket.on("join", (rooms) => {
       rooms.forEach((room) => {
         socket.join(room);
-        console.log(`joined room ${room}`);
       });
     });
 
@@ -57,7 +56,10 @@ module.exports = (io) => {
                 });
                 await lastmessage.save();
               }
-              socket.to(id).emit("recieveMessage", message);
+              socket.to(id).emit("recieveMessage", {
+                ...message._doc,
+                lastMessage: message.createdAt,
+              });
             }
           }
         } catch (err) {

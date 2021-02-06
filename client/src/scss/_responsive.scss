@@ -19,3 +19,26 @@
     transform: translate3d(0, 0, 0) !important;
   }
 }
+
+@media screen and (max-width: 400px) {
+  .status {
+    top: 15px !important;
+  }
+  .addChannel {
+    width: 90% !important;
+  }
+}
+
+@media screen and (max-height: 465px) {
+  .chat {
+    padding-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .join {
+    img {
+      width: 250px !important;
+    }
+  }
+}

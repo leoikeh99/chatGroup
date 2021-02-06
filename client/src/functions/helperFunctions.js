@@ -64,4 +64,13 @@ const isObjId = (id) => {
   }
 };
 
-export { getInitials, tint, truncate, getUnread, isObjId };
+const checkImageType = (type) => {
+  let imageTypes = ["image/jpg", "image/jpeg", "image/png"];
+  let check = false;
+  imageTypes.forEach((imageType) => {
+    type === imageType && (check = true);
+  });
+  return check;
+};
+
+export { getInitials, tint, truncate, getUnread, isObjId, checkImageType };
