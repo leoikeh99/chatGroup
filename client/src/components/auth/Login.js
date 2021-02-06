@@ -75,10 +75,9 @@ const Login = (props) => {
           <h1>Chat Group</h1>
           <form action="">
             {(error && error !== "server error") ||
-              error !==
-                "Unauthorized, token needed for authorization"(
-                  <Alert severity="error">{error}</Alert>
-                )}
+              (error !== "Unauthorized, token needed for authorization" && (
+                <Alert severity="error">{error}</Alert>
+              ))}
             <div className="mt-2"></div>
             <TextField
               label="Username or email"
