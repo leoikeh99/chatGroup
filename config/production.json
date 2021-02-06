@@ -1,0 +1,5 @@
+{
+    "mongoURI": "mongodb+srv://leo:leo_1234@chatgroupapp.yqsor.mongodb.net/chatGroup?retryWrites=true&w=majority",
+    "jwtSecret": "secret"
+  }
+  
