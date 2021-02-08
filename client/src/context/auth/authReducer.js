@@ -22,10 +22,11 @@ const authReducer = (state, action) => {
         loading: null,
       };
     case AUTH_FAIL:
+      console.log(action.payload);
       return {
         ...state,
         token: null,
-        error: action.payload,
+        error: action.payload === "Invalid credentials" ? action.payload : null,
         isAuthenticated: null,
         loading: null,
       };
@@ -45,7 +46,7 @@ const authReducer = (state, action) => {
         user: null,
         loading: null,
         isAuthenticated: null,
-        error: action.payload,
+        error: action.payload === "Invalid credentials" ? action.payload : null,
       };
 
     case UPDATE_PROFILE:

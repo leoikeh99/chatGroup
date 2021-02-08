@@ -145,7 +145,6 @@ const Register = (props) => {
             <FormControl variant="outlined" fullWidth size="small">
               <TextField
                 size="small"
-                id="outlined-adornment-password"
                 variant="outlined"
                 label="Password"
                 type={data.showPassword ? "text" : "password"}
@@ -169,14 +168,12 @@ const Register = (props) => {
                     </InputAdornment>
                   ),
                 }}
-                labelWidth={70}
               />
             </FormControl>
             <div className="mt-3"></div>
             <FormControl variant="outlined" fullWidth size="small">
               <TextField
                 size="small"
-                id="outlined-adornment-password"
                 variant="outlined"
                 label="Confirm password"
                 type={data.showPassword2 ? "text" : "password"}
@@ -204,7 +201,6 @@ const Register = (props) => {
                     </InputAdornment>
                   ),
                 }}
-                labelWidth={140}
               />
             </FormControl>
             <div className="mt-3"></div>

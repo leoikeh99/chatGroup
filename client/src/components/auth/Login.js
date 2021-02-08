@@ -74,11 +74,7 @@ const Login = (props) => {
         <div className="container">
           <h1>Chat Group</h1>
           <form action="">
-            {error &&
-              (error !== "server error" ||
-                error !== "Unauthorized, token needed for authorization") && (
-                <Alert severity="error">{error}</Alert>
-              )}
+            {error && <Alert severity="error">{error}</Alert>}
             <div className="mt-2"></div>
             <TextField
               label="Username or email"
@@ -125,7 +121,6 @@ const Login = (props) => {
                     </InputAdornment>
                   ),
                 }}
-                labelWidth={70}
               />
             </FormControl>
             <div className="mt-2"></div>
