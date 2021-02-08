@@ -400,7 +400,8 @@ a {
       border-radius: 5px;
       border: 0;
       position: relative;
-      background: #2f80ed; }
+      background: #2f80ed;
+      cursor: pointer; }
       .Home .chat form button i {
         color: #e0e0e0; }
   .Home .chat .join {
@@ -412,6 +413,25 @@ a {
     .Home .chat .join img {
       width: 300px;
       margin-bottom: 20px; }
+  .Home .chat .topDates {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 10px;
+    position: relative; }
+    .Home .chat .topDates .line {
+      padding: 0.1px;
+      background: #828282;
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      margin: auto;
+      z-index: -1; }
+    .Home .chat .topDates span {
+      background: #252329;
+      padding: 0px 20px;
+      font-size: 0.8rem;
+      color: #828282; }
 
 .Home .profile {
   height: 170px;

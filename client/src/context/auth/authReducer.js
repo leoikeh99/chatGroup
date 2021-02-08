@@ -3,6 +3,7 @@ import {
   AUTH_FAIL,
   GET_USER,
   SET_LOADER,
+  SET_LOADER3,
   GET_USER_FAIL,
   UPDATE_PROFILE,
   UPDATE_PROFILE_FAIL,
@@ -26,9 +27,14 @@ const authReducer = (state, action) => {
       return {
         ...state,
         token: null,
-        error: action.payload === "Invalid credentials" ? action.payload : null,
+        error:
+          action.payload !== "server error" &&
+          action.payload !== "Unauthorized, token needed for authorization"
+            ? action.payload
+            : null,
         isAuthenticated: null,
         loading: null,
+        loading3: null,
       };
 
     case LOGOUT:
@@ -39,6 +45,7 @@ const authReducer = (state, action) => {
         loading: null,
         isAuthenticated: null,
         token: null,
+        loading3: null,
       };
 
     case GET_USER:
@@ -56,7 +63,12 @@ const authReducer = (state, action) => {
         user: null,
         loading: null,
         isAuthenticated: null,
-        error: action.payload === "Invalid credentials" ? action.payload : null,
+        error:
+          action.payload !== "server error" &&
+          action.payload !== "Unauthorized, token needed for authorization"
+            ? action.payload
+            : null,
+        loading3: null,
       };
 
     case UPDATE_PROFILE:
@@ -84,6 +96,12 @@ const authReducer = (state, action) => {
       return {
         ...state,
         loading2: true,
+      };
+
+    case SET_LOADER3:
+      return {
+        ...state,
+        loading3: true,
       };
 
     case CLEAR_ERROR:

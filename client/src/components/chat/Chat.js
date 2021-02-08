@@ -5,7 +5,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
-import { isObjId } from "../../functions/helperFunctions";
+import { isObjId, getDates } from "../../functions/helperFunctions";
 import av from "../../img/av.png";
 import joinImg from "../../img/join.svg";
 import Button from "@material-ui/core/Button";
@@ -142,6 +142,12 @@ const Chat = ({ match, setHome, socket, user }) => {
     setId(match.params.id);
   }, [match.params.id]);
 
+  useEffect(() => {
+    if (messages2.length !== 0) {
+      getDates(messages2);
+    }
+  }, [messages2]);
+
   const submit = (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -200,6 +206,20 @@ const Chat = ({ match, setHome, socket, user }) => {
               <div className="messages" id="ms">
                 {messages2.map((message) => (
                   <Fragment key={message._id}>
+                    {getDates(messages2).some(
+                      (val) => val.id === message._id
+                    ) ? (
+                      <div className="topDates">
+                        <div className="line"></div>
+                        <span>
+                          {
+                            getDates(messages2).find(
+                              (val) => val.id === message._id
+                            ).date
+                          }
+                        </span>
+                      </div>
+                    ) : null}
                     <div key={message._id} id={message._id} className="message">
                       <div className="image">
                         <img

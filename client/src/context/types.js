@@ -5,6 +5,7 @@ export const GET_USER = "GET_USER";
 export const GET_USER_FAIL = "GET_USER_FAIL";
 export const SET_LOADER = "SET_LOADER";
 export const SET_LOADER2 = "SET_LOADER2";
+export const SET_LOADER3 = "SET_LOADER3";
 export const CREATE_CHANNEL = "CREATE_CHANNEL";
 export const CREATE_CHANNEL_FAIL = "CREATE_CHANNEL_FAIL";
 export const LEAVE_CHANNEL = "LEAVE_CHANNEL";

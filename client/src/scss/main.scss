@@ -408,6 +408,7 @@ a {
         border: 0;
         position: relative;
         background: $primary;
+        cursor: pointer;
         i {
           color: $textColor;
         }
@@ -423,6 +424,31 @@ a {
       img {
         width: 300px;
         margin-bottom: 20px;
+      }
+    }
+
+    .topDates {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 25px;
+      margin-top: 10px;
+      position: relative;
+
+      .line {
+        padding: 0.1px;
+        background: $textColor2;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        margin: auto;
+        z-index: -1;
+      }
+
+      span {
+        background: $background2;
+        padding: 0px 20px;
+        font-size: 0.8rem;
+        color: $textColor2;
       }
     }
   }

@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 const getInitials = (text) => {
   const arr = text.split(" ");
   if (arr.length > 1) {
@@ -73,4 +75,33 @@ const checkImageType = (type) => {
   return check;
 };
 
-export { getInitials, tint, truncate, getUnread, isObjId, checkImageType };
+const getDates = (messages) => {
+  const dates = [];
+  dates[0] = {
+    id: messages[0]._id,
+    date: moment(messages[0].createdAt).format("LL"),
+  };
+  messages.forEach((message) => {
+    if (
+      !dates.some(
+        (date) => date.date === moment(message.createdAt).format("LL")
+      )
+    ) {
+      dates.push({
+        id: message._id,
+        date: moment(message.createdAt).format("LL"),
+      });
+    }
+  });
+  return dates;
+};
+
+export {
+  getInitials,
+  tint,
+  truncate,
+  getUnread,
+  isObjId,
+  checkImageType,
+  getDates,
+};

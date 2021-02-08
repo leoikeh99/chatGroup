@@ -11,6 +11,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import { Link } from "react-router-dom";
+import { CircularProgress, Button } from "@material-ui/core";
 var validator = require("email-validator");
 
 const darkTheme = createMuiTheme({
@@ -24,7 +25,7 @@ const darkTheme = createMuiTheme({
 
 const Register = (props) => {
   const AuthContext = useContext(authContext);
-  const { auth, isAuthenticated, error, clearError } = AuthContext;
+  const { auth, isAuthenticated, error, clearError, loading3 } = AuthContext;
 
   const [validation, setValidation] = useState(null);
 
@@ -36,6 +37,7 @@ const Register = (props) => {
   });
 
   const handleChange = (prop) => (event) => {
+    setValidation(null);
     setData({ ...data, [prop]: event.target.value });
   };
 
@@ -204,7 +206,18 @@ const Register = (props) => {
               />
             </FormControl>
             <div className="mt-3"></div>
-            <input type="button" value="Register" onClick={submit} />
+            <Button
+              color="primary"
+              variant="contained"
+              fullWidth
+              onClick={submit}
+            >
+              {!loading3 ? (
+                "Register"
+              ) : (
+                <CircularProgress size={28} color="inherit" />
+              )}
+            </Button>
           </form>
           <small>
             Already have an account?<Link to="/login"> Login here</Link>

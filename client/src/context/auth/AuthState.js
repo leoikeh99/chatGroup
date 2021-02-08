@@ -7,6 +7,7 @@ import {
   GET_USER,
   SET_LOADER,
   SET_LOADER2,
+  SET_LOADER3,
   GET_USER_FAIL,
   UPDATE_PROFILE,
   UPDATE_PROFILE_FAIL,
@@ -20,6 +21,7 @@ const AuthState = (props) => {
   const initialState = {
     loading: true,
     loading2: null,
+    loading3: null,
     error: null,
     user: null,
     isAuthenticated: null,
@@ -31,6 +33,7 @@ const AuthState = (props) => {
 
   const setLoader = () => dispatch({ type: SET_LOADER });
   const setLoader2 = () => dispatch({ type: SET_LOADER2 });
+  const setLoader3 = () => dispatch({ type: SET_LOADER3 });
   const clearError = () => dispatch({ type: CLEAR_ERROR });
   const logout = () => dispatch({ type: LOGOUT });
 
@@ -41,6 +44,7 @@ const AuthState = (props) => {
       },
     };
     setLoader();
+    setLoader3();
     try {
       const res = await axios.post(`/api/auth/${type}`, data, config);
       dispatch({ type: AUTH, payload: res.data });
@@ -54,6 +58,7 @@ const AuthState = (props) => {
       setAuthToken(localStorage.getItem("token"));
     }
     setLoader();
+    setLoader3();
     try {
       const res = await axios.get("/api/auth");
       dispatch({ type: GET_USER, payload: res.data });
@@ -85,6 +90,7 @@ const AuthState = (props) => {
       value={{
         loading: state.loading,
         loading2: state.loading2,
+        loading3: state.loading3,
         error: state.error,
         user: state.user,
         token: state.token,

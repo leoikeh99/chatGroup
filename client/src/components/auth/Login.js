@@ -10,6 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
+import { CircularProgress, Button } from "@material-ui/core";
 const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
@@ -21,7 +22,7 @@ const darkTheme = createMuiTheme({
 
 const Login = (props) => {
   const AuthContext = useContext(authContext);
-  const { auth, isAuthenticated, error, clearError } = AuthContext;
+  const { auth, isAuthenticated, error, clearError, loading3 } = AuthContext;
 
   const [validation, setValidation] = useState(null);
 
@@ -124,7 +125,18 @@ const Login = (props) => {
               />
             </FormControl>
             <div className="mt-2"></div>
-            <input type="button" value="Login" onClick={login} />
+            <Button
+              color="primary"
+              variant="contained"
+              fullWidth
+              onClick={login}
+            >
+              {!loading3 ? (
+                "Login"
+              ) : (
+                <CircularProgress size={28} color="inherit" />
+              )}
+            </Button>
           </form>
           <small>
             Don't have an account?<Link to="/register"> register here</Link>
