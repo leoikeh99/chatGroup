@@ -18,7 +18,14 @@ const Home = ({ match }) => {
   const [mainStatus, setMainStatus] = useState(null);
 
   const AuthContext = useContext(authContext);
-  const { getUser, user, updateProfile, loading2, status } = AuthContext;
+  const {
+    getUser,
+    user,
+    updateProfile,
+    loading2,
+    status,
+    logout,
+  } = AuthContext;
 
   const ChannelContext = useContext(channelContext);
   const {
@@ -193,7 +200,7 @@ const Home = ({ match }) => {
       </div>
 
       <div className="sideNav">
-        <SideNav match={match} user={user} />
+        <SideNav match={match} user={user} logout={logout} />
       </div>
       <div className="sideNav2">
         <SideNav2
@@ -203,6 +210,7 @@ const Home = ({ match }) => {
           current={current}
           leaveChannel={leaveChannel}
           status2={status2}
+          logout={logout}
         />
       </div>
       <div className="main">

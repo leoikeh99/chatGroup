@@ -8,6 +8,7 @@ import {
   UPDATE_PROFILE_FAIL,
   SET_LOADER2,
   CLEAR_ERROR,
+  LOGOUT,
 } from "../types";
 
 const authReducer = (state, action) => {
@@ -22,13 +23,22 @@ const authReducer = (state, action) => {
         loading: null,
       };
     case AUTH_FAIL:
-      console.log(action.payload);
       return {
         ...state,
         token: null,
         error: action.payload === "Invalid credentials" ? action.payload : null,
         isAuthenticated: null,
         loading: null,
+      };
+
+    case LOGOUT:
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        user: null,
+        loading: null,
+        isAuthenticated: null,
+        token: null,
       };
 
     case GET_USER:

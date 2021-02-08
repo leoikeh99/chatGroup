@@ -11,6 +11,7 @@ import {
   UPDATE_PROFILE,
   UPDATE_PROFILE_FAIL,
   CLEAR_ERROR,
+  LOGOUT,
 } from "../types";
 import axios from "axios";
 import setAuthToken from "../../functions/setAuthToken";
@@ -31,6 +32,7 @@ const AuthState = (props) => {
   const setLoader = () => dispatch({ type: SET_LOADER });
   const setLoader2 = () => dispatch({ type: SET_LOADER2 });
   const clearError = () => dispatch({ type: CLEAR_ERROR });
+  const logout = () => dispatch({ type: LOGOUT });
 
   const auth = async (type, data) => {
     const config = {
@@ -92,6 +94,7 @@ const AuthState = (props) => {
         getUser,
         updateProfile,
         clearError,
+        logout,
       }}
     >
       {props.children}

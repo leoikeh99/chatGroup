@@ -5,7 +5,14 @@ import Chip from "@material-ui/core/Chip";
 import SimpleBar from "simplebar-react";
 import Button from "@material-ui/core/Button";
 
-const SideNav2 = ({ current, userChannels, user, leaveChannel, status2 }) => {
+const SideNav2 = ({
+  current,
+  userChannels,
+  user,
+  leaveChannel,
+  status2,
+  logout,
+}) => {
   useEffect(() => {
     const bottom = document.querySelectorAll(".bottom")[1];
     const options = document.querySelectorAll(".options")[1];
@@ -110,7 +117,7 @@ const SideNav2 = ({ current, userChannels, user, leaveChannel, status2 }) => {
             <li onClick={showProfile}>
               <i className="fas fa-user"></i> My Profile
             </li>
-            <li>
+            <li onClick={() => logout()}>
               <i className="fas fa-sign-out-alt"></i> Logout
             </li>
           </ul>

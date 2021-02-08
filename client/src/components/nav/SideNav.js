@@ -7,7 +7,7 @@ import channelContext from "../../context/channelContext/channelContext";
 import { tint, truncate } from "../../functions/helperFunctions";
 import av from "../../img/av.png";
 
-const SideNav = ({ user, match }) => {
+const SideNav = ({ user, match, logout }) => {
   const [tabs, setTabs] = useState(0);
   const [text, setText] = useState("");
 
@@ -102,7 +102,7 @@ const SideNav = ({ user, match }) => {
             <li onClick={showProfile}>
               <i className="fas fa-user"></i> My Profile
             </li>
-            <li>
+            <li onClick={() => logout()}>
               <i className="fas fa-sign-out-alt"></i> Logout
             </li>
           </ul>
