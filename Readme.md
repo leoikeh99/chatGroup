@@ -13,7 +13,7 @@
 
 ### Live demo:
 
-[Image uploader app live](https://lit-citadel-94024.herokuapp.com/)
+[Chat group app live](https://lit-citadel-94024.herokuapp.com/)
 
 ### Chat
 
